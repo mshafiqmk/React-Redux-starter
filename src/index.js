@@ -5,12 +5,23 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { createStore, combineReducers } from 'redux';
 
-function productReducer(state = [], action) {
-    return state;
+
+function productReducer(state = [], { type, payload }) {
+    switch (type) {
+        case 'updateProduct':
+            return payload;
+        default:
+            return state;
+    }
 }
 
-function userReducer(state = [], action) {
-    return state;
+function userReducer(state = [], { type, payload }) {
+    switch (type) {
+        case 'addUser':
+            return payload;
+        default:
+            return state;
+    }
 }
 
 const allReducers = combineReducers({ products: productReducer, users: userReducer })
@@ -18,6 +29,30 @@ const allReducers = combineReducers({ products: productReducer, users: userReduc
 let store = createStore(allReducers);
 
 console.log(store.getState());
+
+const addUserAction = {
+    type: 'addUser',
+    payload: {
+        userid: 1,
+        userName: 'shafiq'
+    }
+}
+const updateProductAction = {
+    type: 'updateProduct',
+    payload: {
+        id: 1,
+        name: 'Laptop',
+        quantity: 122,
+        brand: 'lenovo'
+    }
+}
+store.dispatch(addUserAction);
+console.log(store.getState());
+
+
+store.dispatch(updateProductAction);
+console.log(store.getState());
+
 
 
 ReactDOM.render(<App store={store} />, document.getElementById('root'));
